@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: numwords
+Version: 1.0
+Summary: # NumWords  NumWords module converts numbers from their numerical form to their international semantic form.  Script by अंkur गोswami 
+Home-page: https://github.com/TheAnkurGoswami/NumWords
+Author: Ankur Goswami
+Author-email: ankurgoswami1401@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.0
+License-File: LICENSE
+
+UNKNOWN
+

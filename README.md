@@ -1,7 +1,5 @@
 # NumWords
 
-NumWords function converts numbers from their numerical form to their alphabetic form.
-
-The current version supports integers less than or equal to 999999999.
+NumWords module converts numbers from their numerical form to their international semantic form.
 
 Script by अंkur गोswami
