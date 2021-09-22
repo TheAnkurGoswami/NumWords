@@ -2,7 +2,7 @@ LICENSE
 README.md
 setup.py
 numwords/__init__.py
-numwords/main.py
+numwords/core.py
 numwords.egg-info/PKG-INFO
 numwords.egg-info/SOURCES.txt
 numwords.egg-info/dependency_links.txt

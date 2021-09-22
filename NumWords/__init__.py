@@ -1,1 +1,1 @@
-from numwords.main import numwords
+from .core import numwords
