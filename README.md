@@ -6,8 +6,30 @@ Current input limit is 10<sup>66</sup>-1.
 Usage:
 
 ```python
-import numwords
-numwords.numwords(12345)
+from numwords import NumWords
+NumWords.convert(12345)
+```
+```python
+>>> "Twelve Thousand Three Hundred Fourty Five"
+```
+
+```python
+NumWords.convert(12345.6789)
+```
+```python
+>>> "Twelve Thousand Three Hundred Fourty Five Point Six Seven Eight Nine"
+```
+
+
+```python
+NumWords.convert("12345.6789")
+```
+```python
+>>> "Twelve Thousand Three Hundred Fourty Five Point Six Seven Eight Nine"
+```
+
+```python
+NumWords.convert(12345.0)
 ```
 ```python
 >>> "Twelve Thousand Three Hundred Fourty Five"
