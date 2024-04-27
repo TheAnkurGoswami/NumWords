@@ -23,7 +23,7 @@ NumWords.convert(12345.6789)
 >>> "Twelve Thousand Three Hundred Fourty Five Point Six Seven Eight Nine"
 ```
 
-<br><br>
+<br>
 
 ```python
 NumWords.convert("12345.6789")
@@ -32,7 +32,7 @@ NumWords.convert("12345.6789")
 >>> "Twelve Thousand Three Hundred Fourty Five Point Six Seven Eight Nine"
 ```
 
-<br><br>
+<br>
 
 ```python
 NumWords.convert(12345.0)
