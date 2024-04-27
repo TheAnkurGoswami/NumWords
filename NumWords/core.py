@@ -35,12 +35,19 @@ class NumWords:
     @staticmethod
     def convert_integers(value: int) -> str:
         limit = NumWords.__get_number_limit()
+        sign_prefix = ""
         assert isinstance(value, int), "Invalid data type, expects int."
 
         if value > limit:
             raise ValueError(f"Value should not exceed {limit}")
 
         num_str = str(value)
+
+        # Check if number is negative
+        if num_str[0] == "-":
+            num_str = num_str[1:]
+            sign_prefix = "minus"
+
         num_str_rev = num_str[::-1]  # Reversing the number
 
         batches: List[str] = []  # batches of utmost three
@@ -59,7 +66,7 @@ class NumWords:
             else:
                 string = f"{batch_str} {LARGE_NUMBERS[counter]} {string}"
             counter += 1
-        string = " ".join(string.split())
+        string = f"{sign_prefix} {' '.join(string.split())}"
         return string.strip().title()
 
     @staticmethod
