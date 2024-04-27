@@ -1,7 +1,7 @@
 import math
 from typing import List, Tuple, Union
 
-from .mappings import DIGITS_WORDS_MAP, NUMBERS_WORDS_MAP, TENS_PLACE_MAP
+from .mappings import DIGITS_WORDS_MAP, LARGE_NUMBERS, NUMBERS_WORDS_MAP, TENS_PLACE_MAP
 
 
 class NumWords:
@@ -10,13 +10,9 @@ class NumWords:
         return 10**66 - 1
 
     @staticmethod
-    def __convert_decimal_digits(val: str, preserve_zero_on_right: bool) -> str:
-        if not preserve_zero_on_right:
-            val = val.rstrip("0")
-
+    def __convert_decimal_digits(val: str) -> str:
         digits = list(val)
         digit_str_list = [DIGITS_WORDS_MAP[digit] for digit in digits]
-
         return " ".join(digit_str_list)
 
     @staticmethod
@@ -67,15 +63,12 @@ class NumWords:
         return string.strip().title()
 
     @staticmethod
-    def convert_floats(value: float, preserve_zero_on_right: bool = False) -> str:
-        print(isinstance(value, float))
+    def convert_floats(value: float) -> str:
         assert isinstance(value, float), "Invalid data type, expects float."
         num_str = str(value)
         integer, decimal_digits = num_str.split(".")
         integer_str = NumWords.convert_integers(int(integer))
-        decimal_digits_str = NumWords.__convert_decimal_digits(
-            decimal_digits, preserve_zero_on_right
-        )
+        decimal_digits_str = NumWords.__convert_decimal_digits(decimal_digits)
         if decimal_digits_str:
             result = f"{integer_str} point {decimal_digits_str}"
         else:
@@ -83,9 +76,7 @@ class NumWords:
         return result.strip().title()
 
     @staticmethod
-    def convert(
-        value: Union[int, float, str], preserve_zero_on_right: bool = False
-    ) -> str:
+    def convert(value: Union[int, float, str]) -> str:
         supported_types = (int, float, str)
         assert isinstance(
             value, supported_types
@@ -98,8 +89,6 @@ class NumWords:
                 value = int(value)
 
         if isinstance(value, float):
-            return NumWords.convert_floats(
-                value, preserve_zero_on_right=preserve_zero_on_right
-            )
+            return NumWords.convert_floats(value)
         else:
             return NumWords.convert_integers(value)
