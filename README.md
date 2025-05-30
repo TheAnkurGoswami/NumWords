@@ -38,5 +38,39 @@ NumWords.convert("12345.6789")
 NumWords.convert(12345.0)
 ```
 ```python
->>> "Twelve Thousand Three Hundred Fourty Five"
+>>> "Twelve Thousand Three Hundred Forty Five"
+```
+
+## Convert words to numbers
+
+NumWords can also convert English number words to integers. This functionality is case-insensitive and handles spacing.
+
+```python
+from numwords import NumWords # If not already imported
+
+NumWords.convert("one hundred twenty three")
+```
+```
+>>> 123
+```
+
+```python
+NumWords.convert("two million five hundred thousand sixty seven")
+```
+```
+>>> 2500067
+```
+
+```python
+NumWords.convert("minus fifty seven")
+```
+```
+>>> -57
+```
+
+```python
+NumWords.convert("ONE THOUSAND")
+```
+```
+>>> 1000
 ```
