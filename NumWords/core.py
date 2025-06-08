@@ -1,5 +1,5 @@
 import math
-from typing import List, Tuple, Union # Union is already here
+from typing import List, Tuple, Union
 
 from .mappings import (
     DIGITS_WORDS_MAP,
@@ -90,7 +90,7 @@ class NumWords:
         return result.strip().title()
 
     @staticmethod
-    def convert(value: Union[int, float, str]) -> Union[str, int]: # Changed return type here
+    def convert(value: Union[int, float, str]) -> Union[str, int]:
         supported_types = (int, float, str)
         assert isinstance(
             value, supported_types
@@ -105,7 +105,7 @@ class NumWords:
                 else:
                     value = int(float_val)
             except ValueError:
-                return NumWords.__text_to_int(value_str) # Removed # type: ignore
+                return NumWords.__text_to_int(value_str)
 
         if isinstance(value, float):
             return NumWords.convert_floats(value)

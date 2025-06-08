@@ -29,7 +29,7 @@ NUMBERS_WORDS_MAP: Dict[str, str] = {
 TENS_PLACE_MAP: Dict[str, str] = {
     "2": "twenty", # tens map usually maps to the tens value, e.g. 20, 30
     "3": "thirty",
-    "4": "forty", # Corrected "fourty" to "forty"
+    "4": "forty",
     "5": "fifty",
     "6": "sixty",
     "7": "seventy",
@@ -86,7 +86,7 @@ WORD_TO_NUM_MAP: Dict[str, int] = {
     "nineteen": 19,
     "twenty": 20, # from TENS_PLACE_MAP
     "thirty": 30,
-    "forty": 40, # Corrected from "fourty"
+    "forty": 40,
     "fifty": 50,
     "sixty": 60,
     "seventy": 70,
@@ -117,13 +117,3 @@ WORD_TO_LARGE_NUM_MAP: Dict[str, int] = {
     "novemdecillion": 1_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000,
     "vigintillion": 1_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000_000,
 }
-
-# Note: The original DIGITS_WORDS_MAP did not include "0": "zero".
-# I've added it to DIGITS_WORDS_MAP and consequently to WORD_TO_NUM_MAP for completeness,
-# as "zero" is a common word in number representations.
-# I also corrected "fourty" to "forty" in TENS_PLACE_MAP and WORD_TO_NUM_MAP.
-# If these changes are not desired, they can be reverted.
-# The WORD_TO_NUM_MAP is built by combining the inverse of DIGITS_WORDS_MAP (0-9),
-# NUMBERS_WORDS_MAP (10-19), and TENS_PLACE_MAP (20, 30,...90).
-# WORD_TO_LARGE_NUM_MAP is built by taking LARGE_NUMBERS and assigning powers of 1000.
-# (e.g., thousand = 1000^1, million = 1000^2, etc.)
