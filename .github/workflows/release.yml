@@ -1,0 +1,58 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches: [ main ] # Assuming 'main' is the release branch
+
+permissions:
+  contents: write      # Allow to push commits and tags (for semantic-release)
+  id-token: write      # For PyPI trusted publishing (if semantic-release/pypa publish supports it)
+  # issues and pull-requests write permissions are optional, for full changelog linking by semantic-release
+  # issues: write
+  # pull-requests: write
+
+jobs:
+  release:
+    name: Create Release and Publish to PyPI
+    runs-on: ubuntu-latest
+    # Optional: Condition to prevent running on forks
+    # if: github.repository_owner == 'YourGitHubUsernameOrOrg'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetches all history for semantic-release to determine next version
+          # token: ${{ secrets.PAT_FOR_SEMANTIC_RELEASE }} # Only if default GITHUB_TOKEN is insufficient
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' # Choose a Python version for the release process
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt # Installs semantic-release, build, wheel
+          pip install . # Install the package itself to ensure it's importable by semantic-release if needed
+
+      - name: Configure Git User
+        run: |
+          git config user.name "semantic-release-bot"
+          git config user.email "semantic-release-bot@users.noreply.github.com"
+
+      - name: Publish release
+        # This will:
+        # 1. Determine the next version based on commit messages.
+        # 2. Update NumWords/__init__.py with the new version.
+        # 3. Generate/update CHANGELOG.md.
+        # 4. Commit the version file and changelog.
+        # 5. Create a Git tag for the new version.
+        # 6. Run the build_command (builds sdist and wheel).
+        # 7. Create a GitHub Release with changelog notes and assets.
+        # 8. Upload the built assets to PyPI (because upload_to_pypi = true).
+        run: make release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # PYPI_API_TOKEN is used by twine, which semantic-release uses under the hood for PyPI upload
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }} # Ensure this secret is configured in GitHub repo settings

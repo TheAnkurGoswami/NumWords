@@ -1,0 +1,19 @@
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"] # Common selections: E/F/W (pycodestyle/pyflakes/warnings), I (isort), UP (pyupgrade)
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["NumWords"]
+
+[tool.semantic_release]
+version_variable = "NumWords/__init__.py:__version__"
+upload_to_pypi = true  # semantic-release will now handle PyPI uploads
+upload_to_release = true # Create GitHub releases
+build_command = "pip install build && python -m build"
+commit_author = "semantic-release <semantic-release@example.com>"
+branch = "main" # Assuming main is the primary development branch
+changelog_file = "CHANGELOG.md"
+tag_format = "v{version}"
