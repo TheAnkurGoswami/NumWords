@@ -1,7 +1,14 @@
 import math
 from typing import List, Tuple, Union
 
-from .mappings import DIGITS_WORDS_MAP, LARGE_NUMBERS, NUMBERS_WORDS_MAP, TENS_PLACE_MAP
+from .mappings import (
+    DIGITS_WORDS_MAP,
+    LARGE_NUMBERS,
+    NUMBERS_WORDS_MAP,
+    TENS_PLACE_MAP,
+    WORD_TO_NUM_MAP,
+    WORD_TO_LARGE_NUM_MAP,
+)
 
 
 class NumWords:
@@ -83,19 +90,73 @@ class NumWords:
         return result.strip().title()
 
     @staticmethod
-    def convert(value: Union[int, float, str]) -> str:
+    def convert(value: Union[int, float, str]) -> Union[str, int]:
         supported_types = (int, float, str)
         assert isinstance(
             value, supported_types
         ), f"Invalid data type, expects one of {supported_types}"
+
         if isinstance(value, str):
-            value = value.replace(",", "")
-            if "." in value:
-                value = float(value)
-            else:
-                value = int(value)
+            value_str = value.replace(",", "")
+            try:
+                float_val = float(value_str)
+                if "." in value_str or float_val != int(float_val):
+                    value = float_val
+                else:
+                    value = int(float_val)
+            except ValueError:
+                return NumWords.__text_to_int(value_str)
 
         if isinstance(value, float):
             return NumWords.convert_floats(value)
-        else:
+        elif isinstance(value, int):
             return NumWords.convert_integers(value)
+        else:
+            # Fallback, though current logic should ensure value is int/float if not returned early
+            # This path should ideally not be hit given the initial assertion and string processing.
+            # If value was a non-numerical string not parsable by __text_to_int (if it raised error),
+            # or if initial type was not int, float, str.
+            # However, __text_to_int currently returns 0 for unparseable, not raises error.
+            # And initial types are asserted.
+            # If somehow value is still not int here (e.g. float from string "123.0" became int(123.0)),
+            # this ensures it's treated as an integer for word conversion.
+            return NumWords.convert_integers(int(value))
+
+
+    @staticmethod
+    def __text_to_int(words: str) -> int:
+        words_processed = words.lower().strip()
+        if not words_processed:
+            return 0
+
+        parts = words_processed.split()
+
+        sign = 1
+        if parts[0] == "minus":
+            sign = -1
+            parts = parts[1:]
+
+        if not parts:
+            return 0
+
+        if len(parts) == 1 and parts[0] == "zero":
+            return 0
+
+        total_number = 0
+        current_number = 0
+
+        for part in parts:
+            if part in WORD_TO_NUM_MAP:
+                current_number += WORD_TO_NUM_MAP[part]
+            elif part == "hundred":
+                current_number = (current_number if current_number != 0 else 1) * 100
+            elif part in WORD_TO_LARGE_NUM_MAP:
+                large_num_val = WORD_TO_LARGE_NUM_MAP[part]
+                total_number += (current_number if current_number != 0 else 1) * large_num_val
+                current_number = 0
+            else:
+                # Ignoring unknown words
+                pass
+
+        total_number += current_number
+        return sign * total_number
